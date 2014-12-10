@@ -45,7 +45,7 @@ def Print_Wrpr(str):
 ##### Main ####
 #==============
 Print_Wrpr("~ HomeAutoTest ~ Version "+VERSION+" ~")
-Print_Wrpr("~ Django Version = "+django.get_version())
+Print_Wrpr("~ Django Version = "+django.get_version()+" ~")
 Print_Wrpr("___________________________________")
 
 myapi = TweepySetup(myauth,CONSUMER_KEY,CONSUMER_SECRET,ACCESS_KEY,ACCESS_SECRET)
