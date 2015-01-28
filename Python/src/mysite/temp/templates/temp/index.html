@@ -1,0 +1,11 @@
+{% if latest_snsr_list %}
+    <ul>
+    {% for snsr in latest_snsr_list %}
+        <li><a href="/temp/{{ snsr.snsr_name}}/">{{ snsr.snsr_name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No Sensors are available.</p>
+{% endif %}
+
+
