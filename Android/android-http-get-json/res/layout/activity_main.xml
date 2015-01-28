@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <!-- 
+    android:gravity="bottom|center|center_horizontal|end|fill_horizontal" 
+    -->
+
+    <TextView
+        android:id="@+id/tvIsConnected"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top|center_horizontal"
+        android:background="#FF0000"
+        android:baselineAligned="false"
+        android:text="is connected?"
+        android:textColor="#FFF"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/tvNumSnsrs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="#FF0000"
+        android:text="0"
+        android:textColor="#FFF"
+        android:textSize="26sp" />
+
+    <Button
+        android:id="@+id/refbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:text="Refresh" 
+        android:onClick="selfOnClick"
+        />
+    <TextView 
+        android:id="@+id/etResponses"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="#FF0000"
+        android:text="ASDFAS"
+        android:textColor="#FFF"
+        android:textSize="26sp"
+        />
+
+</LinearLayout>
