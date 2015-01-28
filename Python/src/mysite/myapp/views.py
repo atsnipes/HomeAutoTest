@@ -1,45 +1,33 @@
-from django.shortcuts import get_object_or_404, render
-from django.http import HttpResponseRedirect
-from django.core.urlresolvers import reverse
-from django.views import generic
+from django.http import HttpResponse
+from django.template import RequestContext, loader
+from django.shortcuts import render
+from django.http import Http404
 
-from myapp.models import Choice, Question
+from temp.models import TempInput
 
-class IndexView(generic.ListView):
-    template_name = 'myapp/index.html'
-    context_object_name = 'latest_question_list'
+latest_snsr_list={0}
 
-    def get_queryset(self):
-        """Return the last five published questions."""
-        return Question.objects.order_by('-pub_date')[:5]
+MAX_SUPPORTED_SNSRS = 10
 
+# Create your views here.
+def index(request):
+#create list of latest 5 sensor objects
+#global latest_snsr_list
+    latest_snsr_list = TempInput.objects.order_by('-snsr_create_date')[:MAX_SUPPORTED_SNSRS]
+    template = loader.get_template('temp/index.html')
+    context = { 'latest_snsr_list': latest_snsr_list }
+    return render(request, 'temp/index.html', context)
 
-class DetailView(generic.DetailView):
-    model = Question
-    template_name = 'myapp/detail.html'
-
-
-class ResultsView(generic.DetailView):
-    model = Question
-    template_name = 'myapp/results.html'
-  
-def vote(request, question_id):
-    p = get_object_or_404(Question, pk=question_id)
+def detail(request, snsr_idx):
+   #if snsr_idx out of range throw FoOhFo
+    if(int(snsr_idx) >= MAX_SUPPORTED_SNSRS or int(snsr_idx) < 0):
+        return HttpResponse("Sensor doesn't exist you stupid whore")
     try:
-        selected_choice = p.choice_set.get(pk=request.POST['choice'])
-    except (KeyError, Choice.DoesNotExist):
-        # Redisplay the question voting form.
-        return render(request, 'myapp/detail.html', {
-            'question': p,
-            'error_message': "You didn't select a choice.",
-        })
-    else:
-        selected_choice.votes += 1
-        selected_choice.save()
-        # Always return an HttpResponseRedirect after successfully dealing
-        # with POST data. This prevents data from being posted twice if a
-        # user hits the Back button.
+#        selected_snsr = TempInput.objects.objects.latest('snsr_create_date')
+        selected_snsr = latest_snsr_list[snsr_idx]
+    except Exception, e:
+     #   print str(e)
+        raise Http404
 
-	# by using the httprsponseredirect, it takes only the name of the view and the variable portion of the URL pattern
-        # that points to that view.
-        return HttpResponseRedirect(reverse('myapp:results', args=(p.id,)))
+    return HttpResponse("The current temperature is " +  str(selected_snsr))
+
