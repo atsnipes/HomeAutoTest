@@ -1,0 +1,16 @@
+from django.http import HttpResponse
+from django.shortcuts import render
+
+from temp.models import TempInput
+
+# Create your views here.
+def index(request):
+    #create list of latest 5 sensors
+    latest_snsr_list = TempInput.objects.order_by('-pub_date')[:5]
+    output = ', '.join([p.snsr_name for p in latest_snsr_list])
+    return HttpResponse(output)
+
+def detail(request, cur_temp):
+    
+    return HttpResponse("The current temperature is  %s." % cur_temp)
+

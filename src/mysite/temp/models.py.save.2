@@ -1,0 +1,21 @@
+import datetime
+
+from django.db import models
+from django.utils import timezone
+
+# Create your models here.
+class TempInput(models.Model):
+    snsr_create_date = models.DateTimeField('Date Created', default=timezone.now())
+    snsr_name = models.CharField(max_length=50, default="Def_Snsr")
+    cur_temp = models.IntegerField(default=0)
+    temp_taken_date = models.DateTimeField('Current Temperature Taken at',default=timezone.now())
+    
+    #temps_list[] then temps_list.append(temp_obj)
+    
+    def __str__(self):
+        return str(self.cur_temp), str(self.temp_taken_date)
+    def was_created_recently(self):
+        return self.snsr_create_date >= timezone.now() - datetime.timedelta(days=1)
+    def set_cur_temp(self,cur_tempin,cur_time):
+        self.cur_temp = cur_tempin
+        self.temp_taken_date = cur_time

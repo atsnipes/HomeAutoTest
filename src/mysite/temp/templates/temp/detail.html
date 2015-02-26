@@ -1,0 +1,82 @@
+<!doctype html> <html lang="en"> <head>
+    <meta charset="utf-8">
+    <title>{{ sel_snsr.snsr_name }} Details</title>
+    <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['gauge']}]}"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+    <link rel="stylesheet" href="/resources/demos/style.css">
+<style>
+    body {background-color:lightgray}
+    h1 {color:blue}
+    p  {color:green}
+</style>
+<script>
+$(function() {
+    $( "#unit_sel_div" ).buttonset();
+  });
+
+google.setOnLoadCallback(drawChart);
+    function drawChart() {
+
+        var tempdata = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Temp ( {{ sel_snsr.temp_units }} )', {{ sel_snsr.cur_temp }} ]
+        ]);
+         
+        var gravdata = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Fake Grav', 9.2]
+        ]);       
+
+        var tempoptions = {
+          width: 400, height: 400,
+          redFrom: 90, redTo: 100,
+          yellowFrom: 80, yellowTo: 90,
+          minorTicks: 5,
+	  min: 50,
+          max: 100
+        };
+        
+        var gravoptions= {
+        width: 400, height: 400,
+          redFrom: 8, redTo: 15,
+          yellowFrom:5, yellowTo: 8,
+          minorTicks: 1,
+          min: 0,
+          max:15
+        }
+
+        var tempchart = new google.visualization.Gauge(document.getElementById('chart_div'));
+        var gravchart = new google.visualization.Gauge(document.getElementById('tmpdiv')); 
+        tempchart.draw(tempdata, tempoptions);
+        gravchart.draw(gravdata, gravoptions);
+     
+        setInterval(function() {
+          gravdata.setValue(0, 1, 40 + Math.round(60 * Math.random()));
+          tempdata.setValue(0, 1, {{ sel_snsr.cur_temp }} );          
+          gravchart.draw(gravdata, gravoptions);
+	  tempchart.draw(tempdata, tempoptions);
+	
+	  //update temp reading from HW
+          alert("Time Updated {{ sel_snsr.temp_updated_date }}");
+
+        //  location.reload(); //reset webpage
+        }, 10000);
+      }
+</script>
+</head>
+
+<body>
+<center>
+<div id="wrapper" style='text-align:center;'>
+	<div id="chart_div" style="float: left; width: 50%; height:400px;"></div>
+        <div id="tmpdiv" style="float: right; width: 50%; height:400px;"></div>
+</div>       
+        <h3>Sensor last modified: {{ sel_snsr.temp_updated_date }}</h3>
+        <h3>Sensor created: {{ sel_snsr.snsr_create_date }}</h3>
+        <h3><a href="/temp/">Go Back to Index</a></h3>
+</center>
+</body>
+
+</html>

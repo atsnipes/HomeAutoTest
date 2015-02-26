@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Sensors</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+    <link rel="stylesheet" href="/resources/demos/style.css">
+<style>
+  #feedback { font-size: 1.4em; }
+  #selectable .ui-selecting { background: #FECA40; }
+ <!--  #selectable .ui-selected { background: #F39814; color: white; } -->
+  #selectable { list-style-type: none; margin: 0; padding: 0; width: 100%; height: 100%; } 
+ <!--  #selectable li { margin: 3px; padding: 1px; float: left; width: 100px; height: 80px; font-size: 20vw; text-align: center; } --> 
+  #selectable li { margin: 0px; display: block; width: 100%; height: 100%;  }
+ </style>
+  <script>
+  $(function() {
+    $( "#selectable" ).selectable({
+         cancel: 'a'
+    });
+  });
+  </script>
+</head>
+<body>
+  <h1><u>Sensor List:</u></h1>
+  {% if latest_snsr_list %}
+    <ol id="selectable">
+    {% for snsr in latest_snsr_list %}
+      <li class="ui-state-default"><a href="/temp/{{snsr.snsr_name}}/">{{ snsr.snsr_name }} </a></li>
+      <!-- li class="ui-state-default" onclick="location.href='/temp/{{ snsr.snsr_name}}';">{{ snsr.snsr_name }} </li -->
+    {% endfor %} 
+    </ol>
+{% else %}
+    <p>No Sensors Found</p>
+{% endif %}
+</body>
+</html>

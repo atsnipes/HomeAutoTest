@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{{ sel_snsr.snsr_name }} Details</title>
+    <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['gauge']}]}"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+    <link rel="stylesheet" href="/resources/demos/style.css">
+<style>
+    body {background-color:lightgray}
+    h1 {color:blue}
+    p  {color:green}
+</style>
+<script>
+//$(function() {
+//    $( "#unit_sel_div" ).buttonset();
+//  });
+
+            function() {
+                setInterval(function() {
+                    var randomnumber = Math.floor(Math.random() * 100);
+                    $('#show').text(
+                            'I am getting refreshed every 3 seconds..! Random Number ==> '
+                                    + randomnumber);
+                }, 3000);
+            }); 
+
+google.setOnLoadCallba
+</script>
+</head>
+
+<body>
+<center>
+	<font size="16" color=:green>Sensor name: {{ sel_snsr.snsr_name }}</font>
+	<div id="chart_div" style="width: 900px; height:400px;"></div>
+        <h2>Sensor created on: {{ sel_snsr.snsr_create_date }}</h2>
+        <h2>Temp last updated on: {{ sel_snsr.temp_updated_date }}</h2>
+	<h1>{[ {{ sel_snsr.cur_temp }} degrees {{ sel_snsr.temp_units }} ]}</h1>
+	<div id="test" style="width:400px; height:100px"></div>
+        <div id="unit_sel_div">
+            <input type="radio" id="radio1" name="radio"><label for="radio1">Change Units to Farenheit</label>
+            <input type="radio" id="radio2" name="radio"><label for="radio2">Change units to Celsius</label>
+        </div>
+        <h3><a href="/temp/">Go Back to Index</a></h3>
+</center>
+</body>
+</html>

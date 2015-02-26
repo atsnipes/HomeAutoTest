@@ -1,0 +1,23 @@
+from django.http import HttpResponse
+from django.shortcuts import render
+
+from temp.models import TempInput
+
+MAX_SUPPORTED_SNSRS = 10
+
+# Create your views here.
+def index(request):
+#create list of latest 5 sensor objects
+   global latest_snsr_list
+   latest_snsr_list = TempInput.objects.order_by('-snsr_create_date')[:MAX_SUPPORTED_SNSRS]
+   #output = ', '.join([p.snsr_name for p in latest_snsr_list])
+   #return HttpResponse(output)
+   context = {'latest_snsr_list': latest_snsr_list}
+   return render(request, 'temp/index.html',context)   
+  
+def detail(request, snsr_idx):
+    #if snsr_idx out of range throw FoOhFo
+ #   if(snsr_idx >= MAX_SUPPORTED_SNSRS or snsr_idx < 0):
+#        return HttpResponse("Sensor doesn't exist you stupid whore")
+    return HttpResponse("The current temperature is " + "GOOD")
+

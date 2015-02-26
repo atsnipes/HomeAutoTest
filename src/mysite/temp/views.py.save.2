@@ -1,0 +1,37 @@
+from django.shortcuts import get_object_or_404, render
+from django.http import Http404
+from django.http import HttpResponseRedirect, HttpResponse
+from django.template import RequestContext, loader
+from django import forms
+
+from temp.models import TempInput
+MAX_SUPPORTED_SNSRS = 10
+
+# Create your views here.
+def index(request):
+#create list of latest 5 sensor objects
+    latest_snsr_list = TempInput.objects.order_by('-snsr_create_date')[:MAX_SUPPORTED_SNSRS]
+    template = loader.get_template('temp/index.html')
+    context = { 'latest_snsr_list': latest_snsr_list }  
+    return render(request, 'temp/index.html', context)  
+  
+def detail(request, url_snsr_name):
+'    CHOICES=[('sel1','sel1 blah'),
+             ('sel2','sel2 blah')]
+    unit_radio = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect())
+    sel_snsr = get_object_or_404(TempInput, snsr_name=url_snsr_name)
+    
+ #   like = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect())
+    return render(request, 'temp/detail.html',{'sel_snsr':sel_snsr})
+
+def update_temp(request, url_snsr_name):
+    print "snsr name = "+url_snsr_name
+    sel_snsr = get_object_or_404(TempInput, snsr_name=url_snsr_name)
+    sel_snsr.update_temp()
+    return HttpResponseRedirect('temp/'+url_snsr_name)
+#    return render(request, 'temp/detail.html',{'sel_snsr':sel_snsr})
+
+
+
+    
+
